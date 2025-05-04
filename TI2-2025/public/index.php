@@ -22,11 +22,29 @@ require_once "../model/guestbookModel.php";
  * le mode fetch à tableau associatif
  */
 
+ try{
+  
+    $connexion = new PDO( DNS , DB_LOGIN, DB_PWD,[PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,]
+    );
+}catch(Exception $e){
+  
+    die("Code : {$e->getCode()} <br> Message : {$e->getMessage()}");
+}
+
+
 /*
  * Si le formulaire a été soumis
  */
 
 // on appelle la fonction d'insertion dans la DB (addGuestbook())
+
+
+if(isset($_POST['prénom']) && isset($_POST['nom']) && isset($_POST['email']) && isset($_POST['telephone']) && isset($_POST['postal']) && isset($_POST['message']))
+{
+$insert = addGuestbook($connexion, $_POST['prénom'], $_POST['nom'], $_POST['email'], $_POST['telephone'], $_POST['postal'], $_POST['message']);
+header('Location: ./');
+exit;
+}
 
 // si l'insertion a réussi
 
@@ -39,6 +57,8 @@ require_once "../model/guestbookModel.php";
  */
 
 // on appelle la fonction de récupération de la DB (getAllGuestbook())
+
+$select=getAllGuestbook($connexion);
 
 /*********************
  * Ou Bonus Pagination
@@ -63,3 +83,4 @@ require_once "../model/guestbookModel.php";
 include "../view/guestbookView.php";
 
 // fermeture de la connexion (bonne pratique)
+$connexion=null;

@@ -21,26 +21,46 @@
  * Les données sont échappées pour éviter les injections XSS (protection backend)
  */
 function addGuestbook(PDO $db,
-                    string $firstname,
-                    string $lastname,
-                    string $usermail,
-                    string $phone,
-                    string $postcode,
-                    string $message
-): bool
-{
-    // traitement des données backend (SECURITE)
+                      string $firstname,
+                      string $lastname,
+                      string $usermail,
+                      string $phone,
+                      string $postcode,
+                      string $message
+): bool {
+    // Sécurité
+    $firstname = trim(htmlspecialchars(strip_tags($firstname), ENT_QUOTES));
+    $lastname = trim(htmlspecialchars(strip_tags($lastname), ENT_QUOTES));
+    $usermail = filter_var($usermail, FILTER_VALIDATE_EMAIL);
+    $phone = trim(htmlspecialchars(strip_tags($phone), ENT_QUOTES));
+    $postcode = trim(htmlspecialchars(strip_tags($postcode), ENT_QUOTES));
+    $message = trim(htmlspecialchars(strip_tags($message), ENT_QUOTES));
 
-    // si pas de données complètes ou ne correspondant pas à nos attentes, on renvoie false
-    return false;
-    // requête préparée obligatoire !
+    // Validation
+    if (
+        empty($firstname) || strlen($firstname) > 100 ||
+        empty($lastname) || strlen($lastname) > 100 ||
+        $usermail === false ||
+        empty($phone) || strlen($phone) > 20 ||
+        empty($postcode) || strlen($postcode) > 4 ||
+        empty($message) || strlen($message) > 500
+    ) {
+        return false;
+    }
 
-    // try catch
-        // si l'insertion a réussi
-        // on renvoie true
-    // sinon, on fait un die de l'erreur
-
+    // Insertion avec gestion d'erreur
+    try {
+        $insert = $db->prepare("INSERT INTO guestbook (firstname, lastname, usermail, phone, postcode, message) VALUES (?, ?, ?, ?, ?, ?)");
+        $insert->execute([$firstname, $lastname, $usermail, $phone, $postcode, $message]);
+        $insert->closeCursor();
+        return true;
+    } catch (PDOException $e) {
+        error_log("Erreur SQL : " . $e->getMessage());
+        return false;
+    }
 }
+
+
 
 /***************************
  * Sans le Bonus Pagination
@@ -60,9 +80,17 @@ function getAllGuestbook(PDO $db): array
     // si la requête a réussi,
     // bonne pratique, fermez le curseur
     // renvoyer le tableau de(s) message(s)
-    return [];
     // sinon, on fait un die de l'erreur
-}
+    $query=$db->query("SELECT * FROM `guestbook`
+    ORDER BY `guestbook`.`datemessage` ASC");
+    $messages=$query->fetchAll();
+    $query->closeCursor();
+    return $messages;
+    
+    }
+
+
+
 
 /**************************
  * Pour le Bonus Pagination
