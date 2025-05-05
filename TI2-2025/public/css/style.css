@@ -20,6 +20,9 @@ form div {
     
 }
 form {
+    
+    background-color:gray; /* Ajoute une couleur de fond blanche au formulaire */
+    
     border: 6px solid black; /* Augmente l'épaisseur de la bordure */
     border-radius: 15px; /* Arrondit davantage les coins */
     width: 400px; /* Définit une largeur idéale pour un formulaire d'inscription */
@@ -29,7 +32,7 @@ form {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: auto;
-    gap: 15px; /* Augmente l'espacement entre les champs */
+    gap: 10px; /* Augmente l'espacement entre les champs */
     grid-template-areas: 
         "prenom"
         "name"
@@ -37,12 +40,13 @@ form {
         "tel"
         "codepostal"
         "message";
+        
 }
 form input, form textarea {
     width: 100%; /* Les champs occupent toute la largeur disponible */
-    padding: 15px; /* Ajoute de l'espace intérieur pour rendre les champs plus grands */
-    font-size: 16px; /* Augmente la taille du texte pour une meilleure lisibilité */
-    border: 2px solid #ccc; /* Ajoute une bordure légère aux champs */
+    padding: 10px; /* Ajoute de l'espace intérieur pour rendre les champs plus grands */
+    font-size: 18px; /* Augmente la taille du texte pour une meilleure lisibilité */
+    border: 2px solid black; /* Ajoute une bordure légère aux champs */
     border-radius: 10px; /* Arrondit les coins des champs */
     box-sizing: border-box; /* Assure que le padding n'affecte pas la largeur totale */
 }
@@ -70,48 +74,80 @@ form input, form textarea {
     /* justify-self: start; Aligne le message à gauche dans sa cellule */
 }
 
+/* Conteneur principal pour l'image et le formulaire */
+.signup-container {
+    display: flex; /* Utilise Flexbox pour aligner l'image et le formulaire */
+    flex-direction: row; /* Par défaut, les éléments sont empilés (pour les petits écrans) */
+    align-items: center; /* Centre les éléments horizontalement */
+    gap: 20px; /* Ajoute un espace entre l'image et le formulaire */
+    margin: -70px auto; /* Centre le conteneur sur la page */
+    max-width: 1200px; /* Limite la largeur totale du conteneur */
+}
+
+/* Style pour l'image */
 .signup-image {
-    width: 50%; /* L'image occupe toute la largeur disponible */
+    width: 40%; /* L'image occupe toute la largeur disponible */
     max-width: 300px; /* Limite la taille maximale de l'image */
-    margin: 0 auto; /* Centre l'image horizontalement */
+    height: auto; /* Maintient les proportions de l'image */
     display: block; /* Assure que l'image est un bloc */
 }
 
-/* Une seule colonne sur les petits écrans */
-@media screen and (max-width: 480px) {
-    form {
-        grid-template-columns: 1fr; 
-        grid-template-areas: 
-        "prenom"
-        "name"
-        "email"
-        "tel"
-        "codepostal"
-        "message";
+/* Style pour le formulaire */
+form {
+    width: 50%; /* Le formulaire occupe toute la largeur disponible */
+    max-width: 600px; /* Limite la largeur maximale du formulaire */
+    border: 6px solid black; /* Bordure du formulaire */
+    border-radius: 15px; /* Coins arrondis */
+    padding: 20px; /* Espacement interne */
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px; /* Espacement entre les champs */
+    padding: 20px 20px 30px 20px; /* Ajoute plus d'espace en bas */
+    overflow: hidden; /* Empêche le débordement */
+    min-height: 100px; /* Garantit une hauteur minimale */
 }
-    }
- 
-   
 
-/* Deux colonnes sur les écrans moyens */
-@media screen and  min-width: 481px) and (max-width: 960px) {
+/* Responsive pour les petits écrans */
+@media screen and (max-width: 480px) {
+    .signup-container {
+        flex-direction: column; /* Empile l'image et le formulaire */
+    }
+    .signup-image {
+        margin-bottom: 20px; /* Ajoute un espace sous l'image */
+    }
     form {
-        grid-template-columns: 1fr ; 
-        grid-template-areas: 
-        "prenom"
-        "name"
-        "email"
-        "tel"
-        "codepostal"
-        "message";
+        width: 90%; /* Réduit la largeur du formulaire pour les petits écrans */
+    }
 }
+
+/* Responsive pour les tablettes */
+@media screen and (min-width: 481px) and (max-width: 960px) {
+    .signup-container {
+        flex-direction: column; /* Empile l'image et le formulaire */
     }
-    textarea {
-        width: 100px;
-       
-      }
-      body{
-        background-color: chocolate;
+    .signup-image {
+        margin-bottom: 20px; /* Même disposition que sur smartphone */
     }
-    
+    form {
+        width: 80%; /* Ajuste la largeur du formulaire pour les tablettes */
+    }
+}
+
+/* Responsive pour les PC */
+@media screen and (min-width: 961px) {
+    .signup-container {
+        flex-direction: row; /* Aligne l'image et le formulaire côte à côte */
+        align-items: center; /* Centre verticalement l'image et le formulaire */
+        justify-content: center; /* Centre horizontalement le contenu */
+        gap: 40px; /* Ajoute un espace entre l'image et le formulaire */
+    }
+    .signup-image {
+        width: 40%; /* L'image occupe 40% de la largeur du conteneur */
+        max-width: 400px; /* Augmente la taille maximale de l'image */
+        margin: 0; /* Supprime les marges */
+    }
+    form {
+        width: 50%; /* Le formulaire occupe 50% de la largeur du conteneur */
+    }
+}
 

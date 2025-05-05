@@ -15,7 +15,7 @@
 
 <div class="container">
 <h1>TI2 | Livre d'or</h1>
-<img src="../img/sign-up-amico.png" alt="Sign Up" class="signup-image">
+
 
 <?php
 $error = "";
@@ -30,7 +30,8 @@ if(isset($insert)){
  ?>
 <h3 class="merci"><?=$thanks?></h3>
 <h3 class="erreur"><?=$error?></h3>
-
+<div class="signup-container">
+<img src="../img/sign-up-amico.png" alt="Sign Up" class="signup-image">
 <form action="" method="post">
 
 <div id="prenom">
@@ -63,7 +64,7 @@ if(isset($insert)){
     </div>
 
     <div id="message">
-        <label for="messageID">Messag*</label>
+        <label for="messageID">Message*</label>
         <textarea id="messageID" name="message" rows="11" placeholder="Entrez votre message" required></textarea>
         <span class="error-message" id="MessageError"></span>
     </div>
@@ -72,6 +73,7 @@ if(isset($insert)){
         
     
 </form>
+
 <?php
 
 $nbInfoUtilisateur = count($select);
@@ -98,7 +100,7 @@ if(empty($nbInfoUtilisateur)): ?>
     </div>
     <?php endif; ?>
 </div>
-
+</div>
  
 
 <script src="js/validation.js"></script>

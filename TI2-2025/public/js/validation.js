@@ -33,6 +33,7 @@ btn.addEventListener('click', function (e) {
         prenomError.textContent = "Prénom est vide";
         prenomError.style.color = "red";
         isValid = false;
+        
     } else if (prenomRegex.test(inputPrenom) === false) {
         prenomError.textContent = "Prénom n'est pas valide";
         prenomError.style.color = "red";
